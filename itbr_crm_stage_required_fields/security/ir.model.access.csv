@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+model_fields_crm_required_fields,model.fields.crm.stage.required.fields,base.model_ir_model_fields,sales_team.group_sale_salesman,1,0,0,0
+model_fields_crm_required_fields_crm_security,model.fields.crm.stage.required.fields.crm.security,base.model_ir_model_fields,crm_security_group.group_crm_own_leads,1,0,0,0
+model_fields_crm_required_fields_portal,model.fields.crm.stage.required.fields.portal,base.model_ir_model_fields,base.group_portal,1,0,0,0
