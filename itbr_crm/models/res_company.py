@@ -21,9 +21,8 @@ class ResCompany(models.Model):
         "res.city", compute="_compute_address", inverse="_inverse_br_address_data"
     )
 
-    @api.depends("street")
+    @api.depends("partner_id.street_name", "partner_id.street_number", "partner_id.street_number2", "partner_id.city_id")
     def _compute_address(self):
-        super()._compute_address()
         for company in self:
             partner = company.partner_id
             company.update(
