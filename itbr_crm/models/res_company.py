@@ -21,8 +21,20 @@ class ResCompany(models.Model):
         "res.city", compute="_compute_address", inverse="_inverse_br_address_data"
     )
 
-    @api.depends("partner_id.street_name", "partner_id.street_number", "partner_id.street_number2", "partner_id.city_id")
+    @api.depends(
+        lambda self: [
+            "partner_id.%s" % fname
+            for fname in self._get_company_address_field_names()
+        ]
+        + ["partner_id.street_number2"]
+    )
     def _compute_address(self):
+        # res.company DOES have _compute_address in its Python MRO (core
+        # res.company + l10n_br_base via _inherit); calling super() populates
+        # the core/l10n_br address fields (street, city, zip, state_id,
+        # country_id, district, ...). Without it those stay empty, country_id
+        # is lost and show_l10n_br becomes False, hiding the whole address.
+        super()._compute_address()
         for company in self:
             partner = company.partner_id
             company.update(
